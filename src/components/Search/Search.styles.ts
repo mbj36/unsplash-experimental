@@ -18,6 +18,10 @@ export const SearchDiv = styled.div`
   align-items: baseline;
   margin-top: 2%;
   margin-bottom: 2%;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 export const Button = styled.button`
@@ -42,7 +46,6 @@ export const Button = styled.button`
 
 export const Filters = styled.div`
   height: auto;
-  width: 98%;
   background: #ffe72a;
   color: #1e5af6;
   font-family: Poppins;

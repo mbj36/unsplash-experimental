@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Photo from '../Photo/Photo';
 import { CollectionContainer, Text } from './Collections.styles';
 import { CollectionType } from '../Photo/Photo.types';
 import Loader from '../Loading/Loading.styles';
+import Modal from '../Modal/Modal';
 
 const Collections = ({
   collections,
@@ -11,6 +12,8 @@ const Collections = ({
   collections: CollectionType[];
   loading: boolean;
 }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selected, setSelected] = useState(null);
   if (loading) {
     return <Loader />;
   }
@@ -27,8 +30,21 @@ const Collections = ({
     <CollectionContainer>
       {collections &&
         collections.map((photo: CollectionType) => {
-          return <Photo photo={photo} key={photo.id} />;
+          return (
+            <Photo
+              setIsOpen={setIsOpen}
+              setSelected={setSelected}
+              photo={photo}
+              key={photo.id}
+            />
+          );
         })}
+
+      <Modal
+        isOpen={isOpen}
+        selected={selected}
+        onClose={() => setIsOpen(false)}
+      />
     </CollectionContainer>
   );
 };

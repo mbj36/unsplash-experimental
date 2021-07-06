@@ -2,9 +2,22 @@ import React from 'react';
 import { PhotoContainer, Image } from './Photo.styles';
 import { CollectionType } from './Photo.types';
 
-const Photo = ({ photo }: { photo: CollectionType }) => {
+const Photo = ({
+  photo,
+  setSelected,
+  setIsOpen,
+}: {
+  photo: CollectionType;
+  setSelected: any;
+  setIsOpen: any;
+}) => {
   return (
-    <PhotoContainer>
+    <PhotoContainer
+      onClick={() => {
+        setSelected(photo);
+        setIsOpen(true);
+      }}
+    >
       <Image src={photo.urls.thumb} alt={photo.alt_description} />
     </PhotoContainer>
   );

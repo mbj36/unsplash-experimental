@@ -23,8 +23,6 @@ const Search = ({ fetchResults, clearFilters, state, clearSearch }) => {
     isSearchQuery,
   } = useSearch(search);
 
-  console.log(search);
-
   return (
     <>
       <SearchDiv>
@@ -35,20 +33,27 @@ const Search = ({ fetchResults, clearFilters, state, clearSearch }) => {
           }
           value={state.search.query || ''}
         />
-        &emsp;
         {isSearchQuery && (
-          <Button
-            onClick={() => {
-              setShowFilters(false);
-              clearSearch();
-            }}
-          >
-            Clear
-          </Button>
+          <>
+            &emsp;
+            <Button
+              onClick={() => {
+                setShowFilters(false);
+                clearSearch();
+              }}
+            >
+              Clear
+            </Button>
+          </>
         )}
-        &emsp;
+
         {isSearchQuery && (
-          <Button onClick={() => setShowFilters(!showFilters)}>Filters</Button>
+          <>
+            &emsp;
+            <Button onClick={() => setShowFilters(!showFilters)}>
+              Filters
+            </Button>
+          </>
         )}
       </SearchDiv>
 
