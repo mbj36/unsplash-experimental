@@ -11,4 +11,7 @@ export const SearchFilter = styled.div`
   display: flex;
   margin-top: 4%;
   margin-bottom: 2%;
+  align-items: baseline;
 `;
+
+export const Line = styled.hr``;

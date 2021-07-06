@@ -1,18 +1,21 @@
 import React from 'react';
 import Collections from '../../components/Collections/Collections';
-import { AppStyles, SearchFilter } from './App.styles';
+import { AppStyles, Line } from './App.styles';
 import Search from '../../components/Search/Search';
-import Filters from '../../components/Filters/Filters';
 import { useApp } from './useApp';
+import Navbar from '../../components/Navbar/Navbar';
 
 const App = () => {
-  const { state, ref, fetchResultsFromSearchQuery } = useApp();
+  const { state, fetchResults, clearResults } = useApp();
   return (
     <AppStyles>
-      <SearchFilter>
-        <Search fetchResults={fetchResultsFromSearchQuery} />
-        <Filters />
-      </SearchFilter>
+      <Navbar />
+      <Line />
+      <Search
+        state={state}
+        clearResults={clearResults}
+        fetchResults={fetchResults}
+      />
       <Collections collections={state.collections} />
     </AppStyles>
   );

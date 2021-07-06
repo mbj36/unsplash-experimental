@@ -6,7 +6,7 @@ const Collections = ({ collections }: { collections: any }) => {
   return (
     <CollectionContainer>
       {collections &&
-        collections.map((photo) => {
+        collections.map((photo: any) => {
           return <Photo photo={photo} key={photo.id} />;
         })}
     </CollectionContainer>

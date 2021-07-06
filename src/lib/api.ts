@@ -13,7 +13,7 @@ export const collectionApi = (page: number, perPage: number) =>
 export const searchApi = ({
   searchQuery = '',
   page = 1,
-  perPage = 10,
+  perPage = 30,
   color,
   orientation,
 }: {

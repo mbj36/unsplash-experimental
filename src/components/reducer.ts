@@ -17,6 +17,21 @@ export const reducer = (state, action) => {
         collections: [...state.collections, ...action.payload],
       };
     }
+
+    case 'UPDATE_PARAMS': {
+      const { searchQuery, page, perPage, orientation, color } = action.payload;
+      return {
+        ...state,
+        search: {
+          param: searchQuery,
+          page,
+          perPage,
+          orientation,
+          color,
+        },
+      };
+    }
+
     case 'FETCH_SEARCH_RESULTS': {
       return {
         ...state,
@@ -25,6 +40,12 @@ export const reducer = (state, action) => {
           param: action.payload.searchQuery,
         },
         collections: action.payload.results,
+      };
+    }
+
+    case 'CLEAR_RESULTS': {
+      return {
+        ...initialState,
       };
     }
     default:
