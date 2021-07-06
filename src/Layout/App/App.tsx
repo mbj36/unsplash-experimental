@@ -6,17 +6,18 @@ import { useApp } from './useApp';
 import Navbar from '../../components/Navbar/Navbar';
 
 const App = () => {
-  const { state, fetchResults, clearResults } = useApp();
+  const { state, fetchResults, clearFilters, loading, clearSearch } = useApp();
   return (
     <AppStyles>
       <Navbar />
       <Line />
       <Search
         state={state}
-        clearResults={clearResults}
+        clearFilters={clearFilters}
+        clearSearch={clearSearch}
         fetchResults={fetchResults}
       />
-      <Collections collections={state.collections} />
+      <Collections loading={loading} collections={state.collections} />
     </AppStyles>
   );
 };

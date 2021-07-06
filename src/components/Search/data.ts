@@ -16,6 +16,7 @@ export const filtersData = {
   color: {
     title: 'COLOR',
     value: 'color',
+    defaultSelected: null,
     values: [
       {
         name: 'Any',
@@ -30,6 +31,7 @@ export const filtersData = {
   orientation: {
     title: 'Orientation',
     value: 'orientation',
+    defaultSelected: null,
     values: [
       {
         name: 'Any',

@@ -48,7 +48,18 @@ export const reducer = (state, action) => {
       };
     }
 
-    case 'CLEAR_RESULTS': {
+    case 'CLEAR_FILTER': {
+      console.log(state);
+      return {
+        ...state,
+        search: {
+          ...initialState.search,
+          query: state.search.query,
+        },
+      };
+    }
+
+    case 'CLEAR_SEARCH': {
       return {
         ...initialState,
       };

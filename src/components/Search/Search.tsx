@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   SearchInput,
   SearchDiv,
@@ -12,23 +12,18 @@ import {
   Label,
 } from './Search.styles';
 import { filtersData } from './data';
+import { useSearch } from './useSearch';
 
-const Search = ({ fetchResults, clearResults, state }) => {
-  const [showFilters, setShowFilters] = useState(false);
-
+const Search = ({ fetchResults, clearFilters, state, clearSearch }) => {
   const { search } = state;
+  const {
+    showFilters,
+    setShowFilters,
+    filterObject,
+    isSearchQuery,
+  } = useSearch(search);
 
-  const filterObject = {
-    searchQuery: search.query,
-    page: search.page,
-    perPage: search.perPage,
-    color: search.color,
-    orientation: search.orientation,
-    orderBy: search.orderBy,
-  };
-
-  const isSearchQuery =
-    state.search.query !== null && state.search.query !== '';
+  console.log(search);
 
   return (
     <>
@@ -42,6 +37,17 @@ const Search = ({ fetchResults, clearResults, state }) => {
         />
         &emsp;
         {isSearchQuery && (
+          <Button
+            onClick={() => {
+              setShowFilters(false);
+              clearSearch();
+            }}
+          >
+            Clear
+          </Button>
+        )}
+        &emsp;
+        {isSearchQuery && (
           <Button onClick={() => setShowFilters(!showFilters)}>Filters</Button>
         )}
       </SearchDiv>
@@ -49,18 +55,19 @@ const Search = ({ fetchResults, clearResults, state }) => {
       {showFilters && isSearchQuery && (
         <Filters>
           <Stack>
-            {Object.keys(filtersData).map((ele) => {
+            {Object.keys(filtersData).map((ele, index) => {
               return (
-                <VerticalStack>
+                <VerticalStack key={index}>
                   <Heading>{filtersData[ele].title}</Heading>
 
-                  {filtersData[ele].values.map((value) => {
+                  {filtersData[ele].values.map((value, index) => {
                     return (
-                      <Div>
+                      <Div key={index}>
                         <RadioInput
                           type="radio"
                           value={value.value}
                           name={filtersData[ele].value}
+                          defaultChecked={value.value === null}
                           onChange={() =>
                             fetchResults({
                               ...filterObject,
@@ -80,7 +87,7 @@ const Search = ({ fetchResults, clearResults, state }) => {
               <Button
                 onClick={() => {
                   setShowFilters(false);
-                  clearResults();
+                  clearFilters();
                 }}
               >
                 Clear Filters

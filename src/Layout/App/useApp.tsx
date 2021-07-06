@@ -66,10 +66,16 @@ export const useApp = () => {
     }
   };
 
-  const clearResults = () => {
+  const clearFilters = () => {
     dispatch({
-      type: 'CLEAR_RESULTS',
-      payload: initialState,
+      type: 'CLEAR_FILTER',
+    });
+    fetchCollections();
+  };
+
+  const clearSearch = () => {
+    dispatch({
+      type: 'CLEAR_SEARCH',
     });
     fetchCollections();
   };
@@ -90,6 +96,7 @@ export const useApp = () => {
     ref,
     fetchResults,
     loading,
-    clearResults,
+    clearFilters,
+    clearSearch,
   };
 };

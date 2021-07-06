@@ -2,8 +2,19 @@ import React from 'react';
 import Photo from '../Photo/Photo';
 import { CollectionContainer, Text } from './Collections.styles';
 import { CollectionType } from '../Photo/Photo.types';
+import Loader from '../Loading/Loading.styles';
 
-const Collections = ({ collections }: { collections: CollectionType[] }) => {
+const Collections = ({
+  collections,
+  loading,
+}: {
+  collections: CollectionType[];
+  loading: boolean;
+}) => {
+  if (loading) {
+    return <Loader />;
+  }
+
   if (!collections.length) {
     return (
       <CollectionContainer>
