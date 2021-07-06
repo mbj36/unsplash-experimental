@@ -5,7 +5,7 @@ export const SearchInput = styled.input`
   font-size: 17px;
   margin-bottom: 1%;
   padding: 6px;
-  width: 90%;
+  width: 100%;
   border-style: solid;
   border-width: 1px;
   border-color: #d6d6d6;
@@ -24,7 +24,7 @@ export const Button = styled.button`
   height: auto;
   background-color: #ffe72a;
   color: #1e5af6;
-  padding: 10px;
+  padding: 5px;
   font-size: 16px;
   border-radius: 8px;
   align-items: center;
@@ -55,7 +55,11 @@ export const Filters = styled.div`
 
 export const Stack = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 export const VerticalStack = styled.div`
@@ -70,6 +74,12 @@ export const Heading = styled.h3`
 
 export const RadioInput = styled.input``;
 
-export const Div = styled.div``;
+export const Div = styled.div`
+  margin: 5px;
+
+  label {
+    margin-left: 5px;
+  }
+`;
 
 export const Label = styled.label``;

@@ -7,3 +7,5 @@ export const NavbarDiv = styled.div`
   padding: 10px;
   background: white;
 `;
+
+export const Image = styled.img``;

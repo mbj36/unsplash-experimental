@@ -6,7 +6,6 @@ import { useInfiniteScroll } from '../../hooks/useInfiniteScroll';
 export const useApp = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [loading, setLoading] = useState<boolean>(false);
-  const { search } = state;
 
   useEffect(() => {
     fetchCollections();
@@ -14,16 +13,14 @@ export const useApp = () => {
 
   const fetchCollections = () => {
     setLoading(true);
-    collectionApi({ page: search.page, perPage: search.perPage }).then(
-      (res) => {
-        dispatch({
-          type: 'GET_PHOTOS',
-          payload: res.response?.results,
-        });
+    collectionApi().then((res) => {
+      dispatch({
+        type: 'GET_PHOTOS',
+        payload: res.response?.results,
+      });
 
-        setLoading(false);
-      }
-    );
+      setLoading(false);
+    });
   };
 
   const fetchResults = ({
@@ -79,14 +76,12 @@ export const useApp = () => {
 
   const ref = useInfiniteScroll({
     onBottom: () => {
-      collectionApi({ page: search.page + 1, perPage: search.perPage }).then(
-        (res) => {
-          dispatch({
-            type: 'FETCH_MORE',
-            payload: res.response?.results,
-          });
-        }
-      );
+      collectionApi().then((res) => {
+        dispatch({
+          type: 'FETCH_MORE',
+          payload: res.response?.results,
+        });
+      });
     },
   });
 

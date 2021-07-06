@@ -1,16 +1,27 @@
 import { createApi } from 'unsplash-js';
-
+// @ts-ignore
 export const api = createApi({
-  accessKey: 'FZpIl7feLseFHwV4DScQqiaVULO54C7GRBiqlmDrxdI',
+  accessKey: process.env.REACT_APP_ACCESS_KEY,
 });
 
-export const collectionApi = ({
-  page,
-  perPage,
-}: {
-  page: number;
-  perPage: number;
-}) => api.collections.getPhotos({ collectionId: '2423569', perPage, page });
+const STAR_WARS_COLLECTION_ID = '2423569';
+
+export const collectionApi = () =>
+  api.collections.getPhotos({
+    collectionId: STAR_WARS_COLLECTION_ID,
+  });
+
+export const filterObject = (search) => {
+  const { query, page, perPage, color, orientation, orderBy } = search;
+  return {
+    query,
+    page,
+    perPage,
+    color,
+    orientation,
+    orderBy,
+  };
+};
 
 export const searchApi = ({
   searchQuery = '',

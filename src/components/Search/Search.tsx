@@ -11,22 +11,25 @@ import {
   Div,
   Label,
 } from './Search.styles';
+import { filtersData } from './data';
 
 const Search = ({ fetchResults, clearResults, state }) => {
   const [showFilters, setShowFilters] = useState(false);
 
   const { search } = state;
 
-  console.log(state);
-
   const filterObject = {
-    searchQuery: search.param,
+    searchQuery: search.query,
     page: search.page,
     perPage: search.perPage,
     color: search.color,
     orientation: search.orientation,
     orderBy: search.orderBy,
   };
+
+  const isSearchQuery =
+    state.search.query !== null && state.search.query !== '';
+
   return (
     <>
       <SearchDiv>
@@ -35,119 +38,43 @@ const Search = ({ fetchResults, clearResults, state }) => {
           onChange={(e) =>
             fetchResults({ ...filterObject, searchQuery: e.target.value })
           }
-          value={state.search.param}
+          value={state.search.query || ''}
         />
-
-        <Button onClick={() => setShowFilters(!showFilters)}>Filters</Button>
+        &emsp;
+        {isSearchQuery && (
+          <Button onClick={() => setShowFilters(!showFilters)}>Filters</Button>
+        )}
       </SearchDiv>
-      {showFilters && (
+
+      {showFilters && isSearchQuery && (
         <Filters>
           <Stack>
-            <VerticalStack>
-              <Heading>SORT BY</Heading>
+            {Object.keys(filtersData).map((ele) => {
+              return (
+                <VerticalStack>
+                  <Heading>{filtersData[ele].title}</Heading>
 
-              <Div>
-                <RadioInput
-                  type="radio"
-                  value="relevance"
-                  name="sort_by"
-                  onChange={() =>
-                    fetchResults({ ...filterObject, orderBy: 'relevance' })
-                  }
-                ></RadioInput>
-                <Label>Relevance</Label>
-              </Div>
-              <Div>
-                <RadioInput
-                  type="radio"
-                  value="newest"
-                  name="sort_by"
-                  onChange={() =>
-                    fetchResults({ ...filterObject, orderBy: 'newest' })
-                  }
-                ></RadioInput>
-                <Label>Newest</Label>
-              </Div>
-            </VerticalStack>
-
-            <VerticalStack>
-              <Heading>COLOR</Heading>
-
-              <Div>
-                <RadioInput
-                  defaultChecked={search.color === null}
-                  type="radio"
-                  value="null"
-                  name="color"
-                  onChange={() =>
-                    fetchResults({ ...filterObject, color: 'null' })
-                  }
-                ></RadioInput>
-                <Label>Any Color</Label>
-              </Div>
-              <Div>
-                <RadioInput
-                  type="radio"
-                  value="black_and_white"
-                  name="color"
-                  onChange={() =>
-                    fetchResults({ ...filterObject, color: 'black_and_white' })
-                  }
-                ></RadioInput>
-                <Label>Black and White</Label>
-              </Div>
-            </VerticalStack>
-
-            <VerticalStack>
-              <Heading>ORIENTATION</Heading>
-
-              <Div>
-                <RadioInput
-                  type="radio"
-                  value="null"
-                  name="orientation"
-                  defaultChecked={search.orientation === null}
-                  onChange={() =>
-                    fetchResults({ ...filterObject, orientation: null })
-                  }
-                ></RadioInput>
-                <Label>Any</Label>
-              </Div>
-              <Div>
-                <RadioInput
-                  type="radio"
-                  value="landscape"
-                  name="orientation"
-                  onChange={() =>
-                    fetchResults({ ...filterObject, orientation: 'landscape' })
-                  }
-                ></RadioInput>
-                <Label>LandScape</Label>
-              </Div>
-
-              <Div>
-                <RadioInput
-                  type="radio"
-                  value="portrait"
-                  name="orientation"
-                  onChange={() =>
-                    fetchResults({ ...filterObject, orientation: 'portrait' })
-                  }
-                ></RadioInput>
-                <Label>Portrait</Label>
-              </Div>
-              <Div>
-                <RadioInput
-                  type="radio"
-                  value="squarish"
-                  name="orientation"
-                  onChange={() =>
-                    fetchResults({ ...filterObject, orientation: 'squarish' })
-                  }
-                ></RadioInput>
-                <Label>Square</Label>
-              </Div>
-            </VerticalStack>
+                  {filtersData[ele].values.map((value) => {
+                    return (
+                      <Div>
+                        <RadioInput
+                          type="radio"
+                          value={value.value}
+                          name={filtersData[ele].value}
+                          onChange={() =>
+                            fetchResults({
+                              ...filterObject,
+                              [filtersData[ele].value]: value.value,
+                            })
+                          }
+                        />
+                        <Label>{value.name}</Label>
+                      </Div>
+                    );
+                  })}
+                </VerticalStack>
+              );
+            })}
 
             <VerticalStack>
               <Button

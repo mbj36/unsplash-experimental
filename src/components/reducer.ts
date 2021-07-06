@@ -6,17 +6,17 @@ export const reducer = (state, action) => {
         collections: action.payload,
       };
     }
-    case 'FETCH_MORE': {
-      return {
-        ...state,
-        search: {
-          ...state.search,
-          page: state.search.page + 1,
-          perPage: state.search.perPage + 20,
-        },
-        collections: [...state.collections, ...action.payload],
-      };
-    }
+    // case 'FETCH_MORE': {
+    //   return {
+    //     ...state,
+    //     search: {
+    //       ...state.search,
+    //       page: state.search.page + 1,
+    //       perPage: state.search.perPage + 20,
+    //     },
+    //     collections: [...state.collections, ...action.payload],
+    //   };
+    // }
 
     case 'UPDATE_PARAMS': {
       const {
@@ -28,11 +28,10 @@ export const reducer = (state, action) => {
         orderBy,
       } = action.payload;
 
-      console.log(action.payload);
       return {
         ...state,
         search: {
-          param: searchQuery,
+          query: searchQuery,
           page,
           perPage,
           orientation,
@@ -63,7 +62,7 @@ export const initialState = {
   loading: false,
   collections: [],
   search: {
-    param: null,
+    query: null,
     page: 1,
     perPage: 30,
     color: null,
