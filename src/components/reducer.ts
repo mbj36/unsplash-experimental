@@ -19,7 +19,16 @@ export const reducer = (state, action) => {
     }
 
     case 'UPDATE_PARAMS': {
-      const { searchQuery, page, perPage, orientation, color } = action.payload;
+      const {
+        searchQuery,
+        page,
+        perPage,
+        orientation,
+        color,
+        orderBy,
+      } = action.payload;
+
+      console.log(action.payload);
       return {
         ...state,
         search: {
@@ -28,6 +37,7 @@ export const reducer = (state, action) => {
           perPage,
           orientation,
           color,
+          orderBy,
         },
       };
     }
@@ -35,10 +45,6 @@ export const reducer = (state, action) => {
     case 'FETCH_SEARCH_RESULTS': {
       return {
         ...state,
-        search: {
-          ...state.search,
-          param: action.payload.searchQuery,
-        },
         collections: action.payload.results,
       };
     }
@@ -57,10 +63,11 @@ export const initialState = {
   loading: false,
   collections: [],
   search: {
-    param: '',
+    param: null,
     page: 1,
     perPage: 30,
-    color: '',
-    orientation: '',
+    color: null,
+    orientation: null,
+    orderBy: null,
   },
 };

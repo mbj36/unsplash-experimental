@@ -4,11 +4,13 @@ export const api = createApi({
   accessKey: 'FZpIl7feLseFHwV4DScQqiaVULO54C7GRBiqlmDrxdI',
 });
 
-export const collectionApi = (page: number, perPage: number) =>
-  api.collections.list({
-    page,
-    perPage,
-  });
+export const collectionApi = ({
+  page,
+  perPage,
+}: {
+  page: number;
+  perPage: number;
+}) => api.collections.getPhotos({ collectionId: '2423569', perPage, page });
 
 export const searchApi = ({
   searchQuery = '',
@@ -16,12 +18,14 @@ export const searchApi = ({
   perPage = 30,
   color,
   orientation,
+  orderBy,
 }: {
   searchQuery?: string;
   page?: number;
   perPage?: number;
   color?: any;
   orientation?: any;
+  orderBy: any;
 }) =>
   api.search.getPhotos({
     query: searchQuery,
@@ -29,4 +33,5 @@ export const searchApi = ({
     orientation,
     perPage,
     page,
+    orderBy,
   });

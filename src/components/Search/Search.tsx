@@ -14,13 +14,27 @@ import {
 
 const Search = ({ fetchResults, clearResults, state }) => {
   const [showFilters, setShowFilters] = useState(false);
+
+  const { search } = state;
+
   console.log(state);
+
+  const filterObject = {
+    searchQuery: search.param,
+    page: search.page,
+    perPage: search.perPage,
+    color: search.color,
+    orientation: search.orientation,
+    orderBy: search.orderBy,
+  };
   return (
     <>
       <SearchDiv>
         <SearchInput
           placeholder="Search for Images"
-          onChange={(e) => fetchResults({ searchQuery: e.target.value })}
+          onChange={(e) =>
+            fetchResults({ ...filterObject, searchQuery: e.target.value })
+          }
           value={state.search.param}
         />
 
@@ -37,6 +51,9 @@ const Search = ({ fetchResults, clearResults, state }) => {
                   type="radio"
                   value="relevance"
                   name="sort_by"
+                  onChange={() =>
+                    fetchResults({ ...filterObject, orderBy: 'relevance' })
+                  }
                 ></RadioInput>
                 <Label>Relevance</Label>
               </Div>
@@ -45,6 +62,9 @@ const Search = ({ fetchResults, clearResults, state }) => {
                   type="radio"
                   value="newest"
                   name="sort_by"
+                  onChange={() =>
+                    fetchResults({ ...filterObject, orderBy: 'newest' })
+                  }
                 ></RadioInput>
                 <Label>Newest</Label>
               </Div>
@@ -54,7 +74,15 @@ const Search = ({ fetchResults, clearResults, state }) => {
               <Heading>COLOR</Heading>
 
               <Div>
-                <RadioInput type="radio" value="null" name="color"></RadioInput>
+                <RadioInput
+                  defaultChecked={search.color === null}
+                  type="radio"
+                  value="null"
+                  name="color"
+                  onChange={() =>
+                    fetchResults({ ...filterObject, color: 'null' })
+                  }
+                ></RadioInput>
                 <Label>Any Color</Label>
               </Div>
               <Div>
@@ -62,6 +90,9 @@ const Search = ({ fetchResults, clearResults, state }) => {
                   type="radio"
                   value="black_and_white"
                   name="color"
+                  onChange={() =>
+                    fetchResults({ ...filterObject, color: 'black_and_white' })
+                  }
                 ></RadioInput>
                 <Label>Black and White</Label>
               </Div>
@@ -75,6 +106,10 @@ const Search = ({ fetchResults, clearResults, state }) => {
                   type="radio"
                   value="null"
                   name="orientation"
+                  defaultChecked={search.orientation === null}
+                  onChange={() =>
+                    fetchResults({ ...filterObject, orientation: null })
+                  }
                 ></RadioInput>
                 <Label>Any</Label>
               </Div>
@@ -83,6 +118,9 @@ const Search = ({ fetchResults, clearResults, state }) => {
                   type="radio"
                   value="landscape"
                   name="orientation"
+                  onChange={() =>
+                    fetchResults({ ...filterObject, orientation: 'landscape' })
+                  }
                 ></RadioInput>
                 <Label>LandScape</Label>
               </Div>
@@ -92,6 +130,9 @@ const Search = ({ fetchResults, clearResults, state }) => {
                   type="radio"
                   value="portrait"
                   name="orientation"
+                  onChange={() =>
+                    fetchResults({ ...filterObject, orientation: 'portrait' })
+                  }
                 ></RadioInput>
                 <Label>Portrait</Label>
               </Div>
@@ -100,6 +141,9 @@ const Search = ({ fetchResults, clearResults, state }) => {
                   type="radio"
                   value="squarish"
                   name="orientation"
+                  onChange={() =>
+                    fetchResults({ ...filterObject, orientation: 'squarish' })
+                  }
                 ></RadioInput>
                 <Label>Square</Label>
               </Div>

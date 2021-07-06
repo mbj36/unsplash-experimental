@@ -14,25 +14,35 @@ export const useApp = () => {
 
   const fetchCollections = () => {
     setLoading(true);
-    collectionApi(search.page, search.perPage).then((res) => {
-      dispatch({
-        type: 'GET_PHOTOS',
-        payload: res.response?.results,
-      });
+    collectionApi({ page: search.page, perPage: search.perPage }).then(
+      (res) => {
+        dispatch({
+          type: 'GET_PHOTOS',
+          payload: res.response?.results,
+        });
 
-      setLoading(false);
-    });
+        setLoading(false);
+      }
+    );
   };
 
-  const fetchResults = ({ searchQuery, page, perPage, color, orientation }) => {
+  const fetchResults = ({
+    searchQuery,
+    page,
+    perPage,
+    color,
+    orientation,
+    orderBy,
+  }) => {
     dispatch({
-      type: 'UPDATE_QUERY',
+      type: 'UPDATE_PARAMS',
       payload: {
         searchQuery,
         page,
         perPage,
         color,
         orientation,
+        orderBy,
       },
     });
 
@@ -40,17 +50,21 @@ export const useApp = () => {
       fetchCollections();
     } else {
       setLoading(true);
-      searchApi({ searchQuery, page, perPage, color, orientation }).then(
-        (res) => {
-          dispatch({
-            type: 'FETCH_SEARCH_RESULTS',
-            payload: {
-              searchQuery,
-              results: res.response?.results,
-            },
-          });
-        }
-      );
+      searchApi({
+        searchQuery,
+        page,
+        perPage,
+        color,
+        orientation,
+        orderBy,
+      }).then((res) => {
+        dispatch({
+          type: 'FETCH_SEARCH_RESULTS',
+          payload: {
+            results: res.response?.results,
+          },
+        });
+      });
       setLoading(false);
     }
   };
@@ -65,12 +79,14 @@ export const useApp = () => {
 
   const ref = useInfiniteScroll({
     onBottom: () => {
-      collectionApi(search.page + 1, search.perPage).then((res) => {
-        dispatch({
-          type: 'FETCH_MORE',
-          payload: res.response?.results,
-        });
-      });
+      collectionApi({ page: search.page + 1, perPage: search.perPage }).then(
+        (res) => {
+          dispatch({
+            type: 'FETCH_MORE',
+            payload: res.response?.results,
+          });
+        }
+      );
     },
   });
 
