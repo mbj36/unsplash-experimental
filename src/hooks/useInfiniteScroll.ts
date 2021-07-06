@@ -1,0 +1,41 @@
+import { useCallback, useEffect, useRef, useState } from 'react';
+
+export const useInfiniteScroll = ({
+  onBottom,
+  offsetY = 100,
+}: {
+  onBottom: () => void;
+  offsetY?: number;
+}) => {
+  const ref = useRef<any>();
+  const [loading, setLoading] = useState(false);
+
+  const handleScroll = useCallback(
+    async (e: any) => {
+      if (
+        e.target.scrollHeight - e.target.scrollTop <=
+          e.target.clientHeight + offsetY &&
+        !loading
+      ) {
+        setLoading(true);
+        await onBottom();
+        setLoading(false);
+      }
+    },
+    [onBottom, loading, setLoading, offsetY]
+  );
+  useEffect(() => {
+    let targetElement: any;
+    if (ref && ref.current) {
+      targetElement = ref.current;
+      ref.current.addEventListener('click', handleScroll);
+    }
+
+    return () => {
+      if (targetElement) {
+        targetElement.removeEventListener('click', handleScroll);
+      }
+    };
+  }, [handleScroll, ref]);
+  return ref;
+};
