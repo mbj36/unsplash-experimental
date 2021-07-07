@@ -1,40 +1,28 @@
-import { useReducer, useEffect, useState } from 'react';
-import { collectionApi, searchApi } from '../../lib/api';
-import { reducer, initialState } from '../../components/reducer';
-import { useInfiniteScroll } from '../../hooks/useInfiniteScroll';
+import { useReducer, useEffect, useState } from "react";
+import { collectionApi, searchApi } from "../../lib/api";
+import { reducer, initialState } from "../../components/reducer";
 
 export const useApp = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const [loading, setLoading] = useState<boolean>(false);
+    const [state, dispatch] = useReducer(reducer, initialState);
+    const [loading, setLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    fetchCollections();
-  }, []);
+    useEffect(() => {
+        fetchCollections();
+    }, []);
 
-  const fetchCollections = () => {
-    setLoading(true);
-    collectionApi().then((res) => {
-      dispatch({
-        type: 'GET_PHOTOS',
-        payload: res.response?.results,
-      });
+    const fetchCollections = () => {
+        setLoading(true);
+        collectionApi().then(res => {
+            dispatch({
+                type: "GET_PHOTOS",
+                payload: res.response?.results,
+            });
 
-      setLoading(false);
-    });
-  };
+            setLoading(false);
+        });
+    };
 
-  const fetchResults = ({
-    query,
-    page,
-    perPage,
-    color,
-    orientation,
-    orderBy,
-    contentFilter,
-  }) => {
-    dispatch({
-      type: 'UPDATE_PARAMS',
-      payload: {
+    const fetchResults = ({
         query,
         page,
         perPage,
@@ -42,63 +30,70 @@ export const useApp = () => {
         orientation,
         orderBy,
         contentFilter,
-      },
-    });
-
-    if (query === '') {
-      fetchCollections();
-    } else {
-      setLoading(true);
-      searchApi({
-        query,
-        page,
-        perPage,
-        color,
-        orientation,
-        orderBy,
-        contentFilter,
-      }).then((res) => {
+    }) => {
+        setLoading(true);
         dispatch({
-          type: 'FETCH_SEARCH_RESULTS',
-          payload: {
-            results: res.response?.results,
-          },
+            type: "UPDATE_PARAMS",
+            payload: {
+                query,
+                page,
+                perPage,
+                color,
+                orientation,
+                orderBy,
+                contentFilter,
+            },
         });
-      });
-      setLoading(false);
-    }
-  };
 
-  const clearFilters = () => {
-    dispatch({
-      type: 'CLEAR_FILTER',
-    });
-  };
+        if (query === "") {
+            fetchCollections();
+        } else {
+            searchApi({
+                query,
+                page,
+                perPage,
+                color,
+                orientation,
+                orderBy,
+                contentFilter,
+            }).then(res => {
+                dispatch({
+                    type: "FETCH_SEARCH_RESULTS",
+                    payload: {
+                        results: res.response?.results,
+                    },
+                });
+            });
+            setLoading(false);
+        }
+    };
 
-  const clearSearch = () => {
-    dispatch({
-      type: 'CLEAR_SEARCH',
-    });
-    fetchCollections();
-  };
-
-  const ref = useInfiniteScroll({
-    onBottom: () => {
-      collectionApi().then((res) => {
+    const clearFilters = () => {
         dispatch({
-          type: 'FETCH_MORE',
-          payload: res.response?.results,
+            type: "CLEAR_FILTER",
         });
-      });
-    },
-  });
+    };
 
-  return {
-    state,
-    ref,
-    fetchResults,
-    loading,
-    clearFilters,
-    clearSearch,
-  };
+    const clearSearch = () => {
+        dispatch({
+            type: "CLEAR_SEARCH",
+        });
+        fetchCollections();
+    };
+
+    const loadMoreData = results => {
+        dispatch({
+            type: "FETCH_MORE",
+            payload: results,
+        });
+    };
+
+    return {
+        state,
+        fetchResults,
+        loading,
+        clearFilters,
+        clearSearch,
+        loadMoreData,
+    };
 };

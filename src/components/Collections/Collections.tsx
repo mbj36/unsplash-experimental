@@ -1,52 +1,61 @@
-import React, { useState } from 'react';
-import Photo from '../Photo/Photo';
-import { CollectionContainer, Text } from './Collections.styles';
-import { CollectionType } from '../Photo/Photo.types';
-import Loader from '../Loading/Loading.styles';
-import Modal from '../Modal/Modal';
+import React, { useState } from "react";
+import Photo from "../Photo/Photo";
+import { CollectionContainer, Text } from "./Collections.styles";
+import { CollectionType } from "../Photo/Photo.types";
+
+import Loader from "../Loading/Loading.styles";
+import Modal from "../Modal/Modal";
+import { useCollection } from "./useCollection";
 
 const Collections = ({
-  collections,
-  loading,
+    state,
+    loading,
+    loadMore,
 }: {
-  collections: CollectionType[];
-  loading: boolean;
+    state: any;
+    loading: boolean;
+    loadMore: (results: any) => void;
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState(null);
-  if (loading) {
-    return <Loader />;
-  }
+    const { collections } = state;
 
-  if (!collections.length) {
-    return (
-      <CollectionContainer>
-        <Text>No results!</Text>
-      </CollectionContainer>
+    const { ref, isOpen, setIsOpen, selected, setSelected } = useCollection(
+        state,
+        loadMore
     );
-  }
 
-  return (
-    <CollectionContainer>
-      {collections &&
-        collections.map((photo: CollectionType) => {
-          return (
-            <Photo
-              setIsOpen={setIsOpen}
-              setSelected={setSelected}
-              photo={photo}
-              key={photo.id}
+    if (loading) {
+        return <Loader />;
+    }
+
+    if (!collections.length) {
+        return (
+            <CollectionContainer>
+                <Text>No results!</Text>
+            </CollectionContainer>
+        );
+    }
+
+    return (
+        <CollectionContainer ref={ref}>
+            {collections &&
+                collections.map((photo: CollectionType) => {
+                    return (
+                        <Photo
+                            setIsOpen={setIsOpen}
+                            setSelected={setSelected}
+                            photo={photo}
+                            key={photo.id}
+                        />
+                    );
+                })}
+
+            <Modal
+                isOpen={isOpen}
+                selected={selected}
+                onClose={() => setIsOpen(false)}
             />
-          );
-        })}
-
-      <Modal
-        isOpen={isOpen}
-        selected={selected}
-        onClose={() => setIsOpen(false)}
-      />
-    </CollectionContainer>
-  );
+        </CollectionContainer>
+    );
 };
 
 export default Collections;
