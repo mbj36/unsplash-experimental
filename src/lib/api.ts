@@ -11,38 +11,29 @@ export const collectionApi = () =>
     collectionId: STAR_WARS_COLLECTION_ID,
   });
 
-export const filterObject = (search) => {
-  const { query, page, perPage, color, orientation, orderBy } = search;
-  return {
-    query,
-    page,
-    perPage,
-    color,
-    orientation,
-    orderBy,
-  };
-};
-
 export const searchApi = ({
-  searchQuery = '',
+  query = '',
   page = 1,
   perPage = 30,
   color,
   orientation,
   orderBy,
+  contentFilter,
 }: {
-  searchQuery?: string;
+  query?: string;
   page?: number;
   perPage?: number;
   color?: any;
   orientation?: any;
   orderBy: any;
+  contentFilter: any;
 }) =>
   api.search.getPhotos({
-    query: searchQuery,
+    query,
     color,
     orientation,
     perPage,
     page,
     orderBy,
+    contentFilter,
   });

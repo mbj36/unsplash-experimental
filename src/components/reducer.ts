@@ -20,23 +20,25 @@ export const reducer = (state, action) => {
 
     case 'UPDATE_PARAMS': {
       const {
-        searchQuery,
+        query,
         page,
         perPage,
         orientation,
         color,
         orderBy,
+        contentFilter,
       } = action.payload;
 
       return {
         ...state,
         search: {
-          query: searchQuery,
+          query: query,
           page,
           perPage,
           orientation,
           color,
           orderBy,
+          contentFilter,
         },
       };
     }
@@ -49,7 +51,6 @@ export const reducer = (state, action) => {
     }
 
     case 'CLEAR_FILTER': {
-      console.log(state);
       return {
         ...state,
         search: {
@@ -79,5 +80,6 @@ export const initialState = {
     color: null,
     orientation: null,
     orderBy: null,
+    contentFilter: null,
   },
 };

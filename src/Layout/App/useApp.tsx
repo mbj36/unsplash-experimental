@@ -24,36 +24,39 @@ export const useApp = () => {
   };
 
   const fetchResults = ({
-    searchQuery,
+    query,
     page,
     perPage,
     color,
     orientation,
     orderBy,
+    contentFilter,
   }) => {
     dispatch({
       type: 'UPDATE_PARAMS',
       payload: {
-        searchQuery,
+        query,
         page,
         perPage,
         color,
         orientation,
         orderBy,
+        contentFilter,
       },
     });
 
-    if (searchQuery === '') {
+    if (query === '') {
       fetchCollections();
     } else {
       setLoading(true);
       searchApi({
-        searchQuery,
+        query,
         page,
         perPage,
         color,
         orientation,
         orderBy,
+        contentFilter,
       }).then((res) => {
         dispatch({
           type: 'FETCH_SEARCH_RESULTS',
@@ -70,7 +73,6 @@ export const useApp = () => {
     dispatch({
       type: 'CLEAR_FILTER',
     });
-    fetchCollections();
   };
 
   const clearSearch = () => {

@@ -16,21 +16,14 @@ import { useSearch } from './useSearch';
 
 const Search = ({ fetchResults, clearFilters, state, clearSearch }) => {
   const { search } = state;
-  const {
-    showFilters,
-    setShowFilters,
-    filterObject,
-    isSearchQuery,
-  } = useSearch(search);
+  const { showFilters, setShowFilters, isSearchQuery } = useSearch(search);
 
   return (
     <>
       <SearchDiv>
         <SearchInput
           placeholder="Search for Images"
-          onChange={(e) =>
-            fetchResults({ ...filterObject, searchQuery: e.target.value })
-          }
+          onChange={(e) => fetchResults({ ...search, query: e.target.value })}
           value={state.search.query || ''}
         />
         {isSearchQuery && (
@@ -75,7 +68,7 @@ const Search = ({ fetchResults, clearFilters, state, clearSearch }) => {
                           defaultChecked={value.value === null}
                           onChange={() =>
                             fetchResults({
-                              ...filterObject,
+                              ...search,
                               [filtersData[ele].value]: value.value,
                             })
                           }

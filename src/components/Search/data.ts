@@ -51,4 +51,19 @@ export const filtersData = {
       },
     ],
   },
+  contentFilter: {
+    title: 'Content Filter',
+    value: 'contentFilter',
+    defaultSelected: 'low',
+    values: [
+      {
+        name: 'Low',
+        value: 'low',
+      },
+      {
+        name: 'High',
+        value: 'high',
+      },
+    ],
+  },
 };

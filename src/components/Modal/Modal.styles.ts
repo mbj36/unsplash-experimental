@@ -5,11 +5,11 @@ export const ModalStyles = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #fff;
+  background-color: transparent;
   padding: 30px;
   z-index: 1000;
-  min-height: 300px;
-  width: 600px;
+  height: 800px;
+  width: 1000px;
   @media (max-width: 768px) {
     width: 300px;
     height: auto;
@@ -39,7 +39,8 @@ export const ModalBody = styled.div`
 `;
 
 export const Image = styled.img`
-  height: 400px;
+  height: 800px;
+  width: 1000px;
   @media (max-width: 768px) {
     height: 200px;
   }
