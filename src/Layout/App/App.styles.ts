@@ -3,7 +3,6 @@ import styled from "styled-components";
 export const AppStyles = styled.div`
     margin: auto;
     width: 70%;
-    height: 100%;
 
     @media (max-width: 768px) {
         width: 90%;

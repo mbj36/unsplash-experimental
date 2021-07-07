@@ -1,4 +1,5 @@
 import React from "react";
+import crossIcon from "./cross.svg";
 import {
     ModalStyles,
     OverlayStyles,
@@ -7,8 +8,6 @@ import {
     Image,
     CrossSvg,
 } from "./Modal.styles";
-
-import crossIcon from "./cross.svg";
 
 function Modal({ selected, isOpen, onClose }) {
     if (!isOpen) return null;

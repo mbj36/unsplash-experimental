@@ -43,6 +43,7 @@ export const Image = styled.img`
     width: 1000px;
     @media (max-width: 768px) {
         height: 200px;
+        width: 100%;
     }
 `;
 

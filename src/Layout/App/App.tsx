@@ -14,6 +14,7 @@ const App = () => {
         clearSearch,
         loadMoreData,
     } = useApp();
+
     return (
         <AppStyles>
             <Navbar />
