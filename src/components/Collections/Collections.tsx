@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Photo from "../Photo/Photo";
 import { CollectionContainer, Text } from "./Collections.styles";
 import { CollectionType } from "../Photo/Photo.types";

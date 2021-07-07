@@ -1,7 +1,6 @@
 import { useReducer, useEffect, useState } from "react";
 import { collectionApi, searchApi } from "../../lib/api";
 import { reducer, initialState } from "../../components/reducer";
-import { search } from "unsplash-js/dist/internals";
 
 export const useApp = () => {
     const [state, dispatch] = useReducer(reducer, initialState);

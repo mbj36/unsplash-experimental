@@ -11,14 +11,17 @@ export const useInfiniteScroll = ({
     const [loading, setLoading] = useState(false);
 
     const handleScroll = useCallback(
-        async (e: any) => {
+        (e: any) => {
             if (
                 e.target.scrollHeight - e.target.scrollTop <=
                     e.target.clientHeight + offsetY &&
                 !loading
             ) {
                 setLoading(true);
-                await onBottom();
+                setTimeout(async () => {
+                    await onBottom();
+                }, 1000);
+
                 setLoading(false);
             }
         },
@@ -28,7 +31,7 @@ export const useInfiniteScroll = ({
         let targetElement: any;
         if (ref && ref.current) {
             targetElement = ref.current;
-            ref.current.addEventListener("scroll", handleScroll);
+            targetElement.addEventListener("scroll", handleScroll);
         }
 
         return () => {
